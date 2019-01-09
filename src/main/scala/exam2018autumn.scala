@@ -324,14 +324,18 @@ object Exam2018Autumn {
    * will have to modify it to ensure that an instance of Monad[M] exists, in
    * order to access it.
    */
-	def flatMap2 [M[Any],A,B,C] (a: M[A], b: M[B]) (f: (A,B) => M[C]): M[C] = 
-    for {
-      ma <- a
-      mb <- b
-      result <- f(ma, mb)
-    } yield result
-    // Attempt:
+	def flatMap2 [M[_],A,B,C] (a: M[A], b: M[B]) (f: (A,B) => M[C]): M[C] = 
+    // Attempts:
     // a.flatMap(ma => b.flatMap(mb => f(ma, mb)))
+    // for {
+    //   ma <- a
+    //   mb <- b
+    //   result <- f(ma, mb)
+    // } yield result
+
+    // I'm unable to get the attempts to type check (underlying type errors)
+    // after having tried changing the signature in different ways. 
+    ???
 
 
 
@@ -346,18 +350,22 @@ object Exam2018Autumn {
    */
 
   def parEqual (a: => Object, b: => Object) :Par[Boolean] = 
-    Par.map2 (Par.unit(a), Par.unit(b)) (_.equals(_))
+    Par.map2 (Par.unit(a), Par.unit(b)) (_ == _)
 
   /* Q. Is it important that the arguments are passed by name? Explain what is
    * the consequence of using call-by-name and call-by-value on arguments of
    * 'a' and 'b' and how this choice affects the cost of the equality
    * comparison.
    *
-   * Answer: ...
-   *
-   *
-   *
-   *
+   * Answer: 
+   * Yes, it is important.
+   * Using call-by-name ensures that a and b are not determined as soon as
+   * parEqual is invoked.
+   * I'm unsure how this affects the actual equality check - as far as I
+   * can see, the equality check is either performed right away (if using
+   * call-by-value) or after determining a and b (if using call-by-name). 
+   * Therefore I would think that the equality check will be equally 
+   * computationally expensive with the code above. 
    */
 
 
@@ -490,14 +498,15 @@ object Exam2018Autumn {
      * approach the task of modifying a data structure design.
      *
      * Answer here: 
-     * I would add and remove randomly to either queue simply because it's the
-     * simplest change. With a proper random generator this would make the 
-     * distribution of elements uniform between the queues. 
-     * This would require only changing the first_active check in the pattern 
-     * matching to be randNumber >= 0.5 instead of the boolean check-and-flip.
+     * I would add and remove randomly to either queue just because it's the
+     * simplest change (this would require only changing the first_active 
+     * check in the pattern matching to be randNumber >= 0.5 instead of the 
+     * current boolean check-and-flip).
+     * With a decent random generator this would make the distribution of 
+     * elements uniform between queues. 
      *
      * Depending on the cost of checking the length of the two sub Deques, it 
-     * might be feasible to instead check for how deep the sub Deques are and
+     * might be feasible to instead check how deep the sub Deques are and
      * add/remove depending on which one is the least/most full. This would
      * guarantee an equal distribution between the sub Deques. 
      */
