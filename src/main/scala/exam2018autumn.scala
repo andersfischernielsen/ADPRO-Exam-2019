@@ -4,8 +4,8 @@
   Andrzej Wąsowski
  ************************************************************************
 
-  Your Full Name: ___
-  Your ITU email account: ___
+  Your Full Name: Anders Fischer-Nielsen
+  Your ITU email account: afin@itu.dk
 
   The exam consists of 10 tasks to  be solved within 4 hours.  MSc and
   Master students  (so all  registered) solve the  same exam,  all the
